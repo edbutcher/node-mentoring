@@ -1,0 +1,27 @@
+{
+  "name": "mentoring-program",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "nodemonConfig": {
+    "delay": 2000
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edbutcher/node-mentoring.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/edbutcher/node-mentoring/issues"
+  },
+  "homepage": "https://github.com/edbutcher/node-mentoring#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.0"
+  }
+}
