@@ -1,12 +1,12 @@
-const csv = require('csvtojson');
-const { resolve } = require("path");
-const { createReadStream, createWriteStream } = require('fs');
+import csv from 'csvtojson';
+import { resolve } from 'path';
+import { createReadStream, createWriteStream } from 'fs';
 
-function errorHandler(error) {
+export function errorHandler(error) {
   console.log(error);
 };
 
-function csvToJson(inputPath, outputPath) {
+export function csvToJson(inputPath, outputPath) {
   createReadStream(inputPath)
     .pipe(csv())
     .pipe(createWriteStream(outputPath))
@@ -17,3 +17,5 @@ const inputPath = resolve('./csv/node_mentoring_t1_2.csv');
 const outputPath = resolve('./text/node_mentoring_t1_2.txt');
 
 csvToJson(inputPath, outputPath);
+
+export default csvToJson;
