@@ -1,1 +1,1 @@
-console.log('Works!');
+require('./introduction/task1')();
