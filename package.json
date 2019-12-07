@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "watch": "nodemon",
-    "task-1-1": "nodemon ./task-1/task-1-1/index.js",
-    "task-1-2": "nodemon ./task-1/task-1-2/index.js",
+    "task-1-1": "nodemon --exec babel-node ./task-1/task-1-1/index.js",
+    "task-1-2": "nodemon --exec babel-node ./task-1/task-1-2/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "nodemonConfig": {
@@ -24,6 +24,9 @@
   },
   "homepage": "https://github.com/edbutcher/node-mentoring#readme",
   "devDependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/node": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
     "nodemon": "^2.0.0"
   },
   "dependencies": {

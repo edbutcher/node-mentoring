@@ -3,4 +3,4 @@ const showMemoryUsage = () => setInterval(() => {
   console.log(`Used ${Math.round(memoryUsed * 100) / 100} Mb of RAM`)
 }, 200)
 
-module.exports = showMemoryUsage;
+export default showMemoryUsage;

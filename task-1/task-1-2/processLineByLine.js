@@ -1,7 +1,7 @@
-const fs = require('fs')
-const csv = require('csvtojson')
-const showMemoryUsage = require('./showMemoryUsage')
-const { pipeline } = require('stream');
+import fs from 'fs'
+import csv from 'csvtojson'
+import showMemoryUsage from './showMemoryUsage'
+import { pipeline } from 'stream'
 
 const processLineByLine = (inputPath, outputPath) => {
   const ramInterval = showMemoryUsage();
@@ -22,4 +22,4 @@ const processLineByLine = (inputPath, outputPath) => {
   );
 };
 
-module.exports = processLineByLine;
+export default processLineByLine;

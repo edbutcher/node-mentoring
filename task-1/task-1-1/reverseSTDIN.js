@@ -1,6 +1,6 @@
 function reverseSTDIN() {
-  process.stdin.setEncoding('utf8');
-  console.log('Enter something here to reverse it:');
+  process.stdin.setEncoding('utf8')
+  console.log('Enter something here to reverse it:')
 
   process.stdin.on('readable', () => {
     let chunk;
@@ -13,9 +13,9 @@ function reverseSTDIN() {
           .reverse()
           .join('')
           + '\n\n'
-      );
-    };
+      )
+    }
   });
 };
 
-module.exports = reverseSTDIN;
+export default reverseSTDIN
