@@ -2,10 +2,9 @@ import { User, UserI } from './user'
 
 interface UpdateUser {
     id: string;
-    login?: string;
-    password?: string;
-    age?: number;
-    isDeleted?: boolean;
+    login: string;
+    password: string;
+    age: number;
 }
 
 class Users {
@@ -24,39 +23,28 @@ class Users {
 
     addUser({ login, password, age }: UserI): User {
         const user = new User({ login, password, age })
-        Users._users = [...Users._users, user]
+        Users._users.push(user)
 
         return user
     }
 
     updateUser({ id, login, password, age }: UpdateUser): User {
-        Users._users = Users._users.map(user => {
-            if (user.id === id) {
-                return {
-                    ...user,
-                    login: login || user.login,
-                    password: password || user.password,
-                    age: age || user.age
-                }
-            }
-            return user
-        })
+        const userIndex = Users._users.findIndex(user => user.id === id && !user.isDeleted)
+        if (userIndex === -1) throw Error('No such user id')
 
-        return this.getUser(id)
+        Users._users[userIndex].login = login
+        Users._users[userIndex].password = password
+        Users._users[userIndex].age = age
+
+        return Users._users[userIndex]
     }
 
     deleteUser(id: string) {
-        // check if user exist
-        this.getUser(id)
-        Users._users = Users._users.map(user => {
-            if (user.id === id) {
-                return {
-                    ...user,
-                    isDeleted: true
-                }
-            }
-            return user
-        })
+        const userIndex = Users._users.findIndex(user => user.id === id)
+        if (userIndex === -1) throw Error('No such user id')
+        Users._users[userIndex].isDeleted = true
+
+        return Users._users[userIndex]
     }
 }
 
