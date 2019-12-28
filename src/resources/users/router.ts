@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { createValidator } from 'express-joi-validation'
-import { getAllUser, getUserById, createUser, updateUser, deleteUser } from './service'
+import { getAllUser, getUserById, createUser, updateUser, deleteUser } from './controller'
 import { userSchema } from './model'
 
 const userRouter = Router()
