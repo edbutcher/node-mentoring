@@ -40,6 +40,7 @@
   "dependencies": {
     "@hapi/joi": "^16.1.8",
     "express": "^4.17.1",
+    "express-cache-controller": "^1.1.0",
     "express-joi-validation": "^4.0.3",
     "uuid": "^3.3.3"
   }
