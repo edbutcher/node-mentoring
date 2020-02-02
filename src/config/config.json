@@ -1,26 +1,23 @@
 {
-    "development": {
-        "username": "mentoring_user",
-        "password": "pass1234",
-        "database": "mentoring_database",
-        "host": "127.0.0.1",
-        "dialect": "postgres",
-        "operatorsAliases": false
-    },
-    "test": {
-        "username": "mentoring_user",
-        "password": "pass1234",
-        "database": "mentoring_database",
-        "host": "127.0.0.1",
-        "dialect": "postgres",
-        "operatorsAliases": false
-    },
-    "production": {
-        "username": "mentoring_user",
-        "password": "pass1234",
-        "database": "mentoring_database",
-        "host": "127.0.0.1",
-        "dialect": "postgres",
-        "operatorsAliases": false
-    }
+  "development": {
+    "username": "mentoring_user",
+    "password": "pass1234",
+    "database": "mentoring_database",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "mentoring_user",
+    "password": "pass1234",
+    "database": "mentoring_database",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "mentoring_user",
+    "password": "pass1234",
+    "database": "mentoring_database",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
 }

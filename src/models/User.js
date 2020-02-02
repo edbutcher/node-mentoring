@@ -1,9 +1,6 @@
-import { DataTypes } from 'sequelize'
 
-export default (connection) => {
-  const queryInterface = connection.getQueryInterface()
-
-  queryInterface.createTable('users', {
+export default (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -21,11 +18,13 @@ export default (connection) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    deleted: {
+    isDeleted: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     }
-  }, {
-    freezeTableName: true
-  })
+  }, {})
+  User.associate = () => {
+    // associations can be defined here
+  }
+  return User
 }
