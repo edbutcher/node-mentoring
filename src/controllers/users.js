@@ -1,4 +1,5 @@
 import Sequelize from 'sequelize'
+import { CustomError } from '../services/error'
 import models from '../models'
 const { User } = models
 
@@ -21,7 +22,6 @@ export const getAllUser = async (req, res) => {
 
     res.status(200).json({ users })
   } catch (error) {
-    console.log(error)
     res.status(500).json({ message: error })
   }
 }
@@ -51,7 +51,7 @@ export const createUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const id = req.params.userId
-    if (!id) throw Error('"id" field is required')
+    if (!id) throw CustomError(400, '"id" field is required')
 
     const { login, password, age } = req.body
     const user = await User.update(
@@ -78,4 +78,3 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ message: error })
   }
 }
-
