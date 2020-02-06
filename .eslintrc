@@ -1,5 +1,4 @@
 {
-  "parser": "babel-eslint",
   "plugins": [],
   "env": {
     "browser": true,
@@ -9,6 +8,7 @@
     "jest": true
   },
   "parserOptions": {
+    "ecmaVersion":8,
     "ecmaFeatures": {
       "arrowFunctions": true,
       "blockBindings": true,
