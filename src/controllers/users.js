@@ -48,7 +48,7 @@ async function updateUser(req, res) {
 async function deleteUser(req, res) {
   const id = req.params.userId
   if (!id) throw CustomError(400, '"userId" field is required')
-  await User.update({ isDeleted: true }, { where: { id } })
+  await User.update({ isDeleted: true }, { where: { id }, individualHooks: true })
 
   res.sendStatus(200)
 }

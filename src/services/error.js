@@ -1,5 +1,3 @@
-const logger = require('morgan')
-
 class CustomError extends Error {
   constructor(statusCode, message) {
     super()
@@ -11,11 +9,6 @@ class CustomError extends Error {
 function errorHandler(err, req, res) {
   const statusCode = err.statusCode || 500
   const message = err.message || 'Unexpected error'
-  logger.error({
-    status: 'error',
-    statusCode,
-    message
-  })
 
   res.status(statusCode).json({
     status: 'error',

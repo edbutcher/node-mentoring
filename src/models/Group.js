@@ -1,19 +1,19 @@
-
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
     name: DataTypes.STRING,
     permissions: {
-      type: DataTypes.STRING,
-      get() {
-        return JSON.parse(this.getDataValue('permissions'))
-      },
-      set(value) {
-        return this.setDataValue('permissions', JSON.stringify(value))
-      }
+      type: DataTypes.ARRAY(DataTypes.STRING)
     }
   }, {})
-  Group.associate = () => {
-    // associations can be defined here
+  Group.associate = (models) => {
+    Group.belongsToMany(models.User, {
+      through: 'UserGroups',
+      as: 'users',
+      foreignKey: 'groupId',
+      otherKey: 'userId',
+      onDelete: 'CASCADE',
+      hooks: true
+    })
   }
   return Group
 }

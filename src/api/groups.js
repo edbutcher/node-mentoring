@@ -1,11 +1,12 @@
 const groupRouter = require('express').Router()
-const { validateGroup } = require('../services/validation')
+const { validateGroup, validateUserGroup } = require('../services/validation')
 const {
   getAllGroups,
   createGroup,
   getGroupById,
   updateGroup,
-  deleteGroup
+  deleteGroup,
+  addUsersToGroup
 } = require('../controllers/groups')
 
 groupRouter
@@ -14,5 +15,6 @@ groupRouter
   .get('/:groupId', getGroupById)
   .patch('/:groupId', validateGroup, updateGroup)
   .delete('/:groupId', deleteGroup)
+  .post('/addUsers', validateUserGroup, addUsersToGroup)
 
 module.exports = groupRouter

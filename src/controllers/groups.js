@@ -1,5 +1,5 @@
 const { CustomError } = require('../services/error')
-const { Group } = require('../models')
+const { Group, UserGroup, sequelize } = require('../models')
 
 async function getAllGroups(req, res) {
   const groups = await Group.findAll({
@@ -38,9 +38,28 @@ async function updateGroup(req, res) {
 async function deleteGroup(req, res) {
   const id = req.params.groupId
   if (!id) throw CustomError(400, '"groupId" field is required')
-  await Group.destroy({ where: { id } })
+  await Group.destroy({ where: { id }, individualHooks: true })
 
   res.sendStatus(200)
+}
+
+async function addUsersToGroup(req, res) {
+  let transaction
+
+  try {
+    const { groupId, userIds } = req.body
+    const data = userIds.map(userId => ({ userId, groupId }))
+    transaction = await sequelize.transaction()
+
+    await UserGroup.bulkCreate(data, { transaction })
+    transaction.commit()
+    res.sendStatus(200)
+  } catch (error) {
+    console.log(error)
+    transaction.rollback()
+
+    throw CustomError(400, error.message)
+  }
 }
 
 module.exports = {
@@ -48,5 +67,6 @@ module.exports = {
   getGroupById,
   createGroup,
   updateGroup,
-  deleteGroup
+  deleteGroup,
+  addUsersToGroup
 }

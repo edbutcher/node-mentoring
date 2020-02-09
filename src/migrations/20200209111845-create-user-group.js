@@ -1,17 +1,17 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Groups', {
+    return queryInterface.createTable('UserGroups', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
+      userId: {
+        type: Sequelize.INTEGER
       },
-      permissions: {
-        type: Sequelize.ARRAY(Sequelize.STRING)
+      groupId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -23,7 +23,7 @@ module.exports = {
       }
     })
   },
-  down: queryInterface => {
-    return queryInterface.dropTable('Groups')
+  down: (queryInterface) => {
+    return queryInterface.dropTable('UserGroups')
   }
 }
