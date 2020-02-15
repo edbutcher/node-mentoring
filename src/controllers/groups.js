@@ -29,23 +29,32 @@ async function updateGroup(req, res) {
   if (!id) throw CustomError(400, '"groupId" field is required')
 
   const { name, permissions } = req.body
-  await Group.update({ id, name, permissions }, {  where: { id } })
+  await Group.update({ id, name, permissions }, { where: { id } })
   const group = await Group.findByPk(id)
 
   res.json(group)
 }
 
 async function deleteGroup(req, res) {
-  const id = req.params.groupId
-  if (!id) throw CustomError(400, '"groupId" field is required')
-  await Group.destroy({ where: { id }, individualHooks: true })
+  let transaction
+  try {
+    const id = req.params.groupId
+    if (!id) throw CustomError(400, '"groupId" field is required')
 
-  res.sendStatus(200)
+    transaction = await sequelize.transaction()
+    await UserGroup.destroy({ where: { groupId: id }, transaction })
+    await Group.destroy({ where: { id }, transaction })
+
+    transaction.commit()
+    res.sendStatus(200)
+  } catch (error) {
+    transaction.rollback()
+    throw CustomError(400, error.message)
+  }
 }
 
 async function addUsersToGroup(req, res) {
   let transaction
-
   try {
     const { groupId, userIds } = req.body
     const data = userIds.map(userId => ({ userId, groupId }))
@@ -55,9 +64,7 @@ async function addUsersToGroup(req, res) {
     transaction.commit()
     res.sendStatus(200)
   } catch (error) {
-    console.log(error)
     transaction.rollback()
-
     throw CustomError(400, error.message)
   }
 }

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const { CustomError } = require('../services/error')
-const { User } = require('../models')
+const { User, UserGroup, sequelize } = require('../models')
 
 async function getAllUsers(req, res) {
   const { loginSubstring, limit } = req.query
@@ -46,11 +46,21 @@ async function updateUser(req, res) {
 }
 
 async function deleteUser(req, res) {
-  const id = req.params.userId
-  if (!id) throw CustomError(400, '"userId" field is required')
-  await User.update({ isDeleted: true }, { where: { id }, individualHooks: true })
+  let transaction
+  try {
+    const id = req.params.userId
+    if (!id) throw CustomError(400, '"userId" field is required')
 
-  res.sendStatus(200)
+    transaction = await sequelize.transaction()
+    await UserGroup.destroy({ where: { userId: id }, transaction })
+    await User.update({ isDeleted: true }, { where: { id }, transaction })
+
+    transaction.commit()
+    res.sendStatus(200)
+  } catch (error) {
+    transaction.rollback()
+    throw CustomError(400, error.message)
+  }
 }
 
 module.exports = {

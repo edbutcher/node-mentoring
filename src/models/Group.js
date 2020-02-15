@@ -1,5 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false
+    },
     name: DataTypes.STRING,
     permissions: {
       type: DataTypes.ARRAY(DataTypes.STRING)
