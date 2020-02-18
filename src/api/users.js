@@ -1,20 +1,18 @@
-import { Router } from 'express'
-import { validateUser } from '../services/validation'
-import {
-  getAllUser,
+const userRouter = require('express').Router()
+const { validateUser } = require('../services/validation')
+const {
+  getAllUsers,
   createUser,
   getUserById,
   updateUser,
   deleteUser
-} from '../controllers/users'
-
-const userRouter = Router()
+} = require('../controllers/users')
 
 userRouter
-  .get('/', getAllUser)
+  .get('/', getAllUsers)
   .post('/', validateUser, createUser)
   .get('/:userId', getUserById)
   .patch('/:userId', validateUser, updateUser)
   .delete('/:userId', deleteUser)
 
-export default userRouter
+module.exports = userRouter

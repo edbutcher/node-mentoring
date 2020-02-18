@@ -1,11 +1,12 @@
-import { Router } from 'express'
-import cacheControl from 'express-cache-controller'
-import userRouter from './users'
+const apiRouter = require('express').Router()
+const cacheControl = require('express-cache-controller')
 
-const apiRouter = Router()
+const userRouter = require('./users')
+const groupRouter = require('./groups')
 
 apiRouter
   .get('*', cacheControl({ maxAge: 600, private: true }))
   .use('/users', userRouter)
+  .use('/groups', groupRouter)
 
-export default apiRouter
+module.exports = apiRouter

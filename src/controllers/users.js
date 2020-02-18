@@ -1,9 +1,8 @@
-import Sequelize from 'sequelize'
-import { CustomError } from '../services/error'
-import models from '../models'
-const { User } = models
+const Sequelize = require('sequelize')
+const { CustomError } = require('../services/error')
+const { User, UserGroup, sequelize } = require('../models')
 
-export const getAllUser = async (req, res) => {
+async function getAllUsers(req, res) {
   const { loginSubstring, limit } = req.query
 
   const users = await User.findAll({
@@ -14,47 +13,60 @@ export const getAllUser = async (req, res) => {
         [Sequelize.Op.iLike]: `%${loginSubstring || ''}%`
       }
     },
-    order: [
-      ['login', 'ASC']
-    ]
+    order: [['login', 'ASC']]
   })
 
   res.json({ users })
 }
 
-export const getUserById = async (req, res) => {
+async function getUserById(req, res) {
   const id = req.params.userId
+  if (!id) throw CustomError(400, '"userId" field is required')
   const user = await User.findByPk(id)
 
   res.json(user)
 }
 
-export const createUser = async (req, res) => {
+async function createUser(req, res) {
   const { login, password, age } = req.body
   const user = await User.create({ login, password, age })
 
   res.status(201).json(user)
 }
 
-export const updateUser = async (req, res) => {
+async function updateUser(req, res) {
   const id = req.params.userId
-  if (!id) throw CustomError(400, '"id" field is required')
+  if (!id) throw CustomError(400, '"userId" field is required')
 
   const { login, password, age } = req.body
-  const user = await User.update(
-    { id, login, password, age },
-    { where: { id } }
-  )
+  await User.update({ id, login, password, age }, { where: { id } })
+  const user = await User.findByPk(id)
 
   res.json(user)
 }
 
-export const deleteUser = async (req, res) => {
-  const id = req.params.userId
-  await User.update(
-    { isDeleted: true },
-    { where: { id } }
-  )
+async function deleteUser(req, res) {
+  let transaction
+  try {
+    const id = req.params.userId
+    if (!id) throw CustomError(400, '"userId" field is required')
 
-  res.sendStatus(200)
+    transaction = await sequelize.transaction()
+    await UserGroup.destroy({ where: { userId: id }, transaction })
+    await User.update({ isDeleted: true }, { where: { id }, transaction })
+
+    transaction.commit()
+    res.sendStatus(200)
+  } catch (error) {
+    transaction.rollback()
+    throw CustomError(400, error.message)
+  }
+}
+
+module.exports = {
+  getAllUsers,
+  createUser,
+  getUserById,
+  updateUser,
+  deleteUser
 }
