@@ -1,20 +1,31 @@
+const logger = require('./logger')
+
 class CustomError extends Error {
-  constructor(statusCode, message) {
+  constructor(code, message) {
     super()
-    this.statusCode = statusCode
+    this.code = code
     this.message = message
   }
 }
 
-function errorHandler(err, req, res) {
-  const statusCode = err.statusCode || 500
+function errorHandler(err, req, res, next) {
+  const code = err.code || 500
   const message = err.message || 'Unexpected error'
 
-  res.status(statusCode).json({
+  logger.log({
+    level: 'error',
+    message,
+    method: req.method,
+    url: req.url,
+    params: req.body
+  })
+
+  res.status(code).json({
     status: 'error',
-    statusCode,
+    code,
     message
   })
+  next()
 }
 
 module.exports = {
