@@ -21,6 +21,7 @@ async function getAllUsers(req, res) {
 
 async function getUserById(req, res) {
   const id = req.params.userId
+  if (!id) throw CustomError(400, '"userId" field is required')
   const user = await User.findByPk(id)
   if (!user) throw new CustomError(400, `There is no user with id ${id}`)
 
