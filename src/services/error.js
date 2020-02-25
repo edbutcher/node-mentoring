@@ -8,9 +8,10 @@ class CustomError extends Error {
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 function errorHandler(err, req, res, next) {
   const code = err.code || 500
-  const message = err.message || 'Unexpected error'
+  const message = err.code ? err.message : 'Unexpected error'
 
   logger.log({
     level: 'error',
@@ -20,12 +21,7 @@ function errorHandler(err, req, res, next) {
     params: req.body
   })
 
-  res.status(code).json({
-    status: 'error',
-    code,
-    message
-  })
-  next()
+  res.status(code).json({ code, message })
 }
 
 module.exports = {
