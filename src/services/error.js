@@ -1,8 +1,8 @@
 const logger = require('./logger')
 
 class CustomError extends Error {
-  constructor(code, message) {
-    super()
+  constructor(code, message, ...params) {
+    super(params)
     this.code = code
     this.message = message
   }
@@ -12,13 +12,14 @@ class CustomError extends Error {
 function errorHandler(err, req, res, next) {
   const code = err.code || 500
   const message = err.code ? err.message : 'Unexpected error'
+  const place = err.stack.match(/\((\S+)\)/)[1]
+  const functionName = err.stack.match(/at\s(\S+)\s/)[1]
 
   logger.log({
     level: 'error',
-    message,
-    method: req.method,
-    url: req.url,
-    params: req.body
+    place,
+    functionName,
+    message: err.message
   })
 
   res.status(code).json({ code, message })

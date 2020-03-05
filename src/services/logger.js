@@ -1,16 +1,31 @@
 const { createLogger, format, transports } = require('winston')
 
-const myFormat = format.printf(({ level, method, url, params, message }) => {
-  return `[${level}] ${method} ${url} ${JSON.stringify(params)}: ${message}`
+const infoFormat = format.printf(({ level, query, body, headers }) => {
+  return `[${level}] ${JSON.stringify(query)} ${JSON.stringify(body)} ${JSON.stringify(headers)}`
+})
+
+const errorFormat = format.printf((info) => {
+  return `[${info.level}] [${info.place} -> ${info.functionName}]: ${info.message}`
 })
 
 const logger = createLogger({
-  level: 'error',
-  format: format.combine(
-    format.colorize(),
-    myFormat
-  ),
-  transports: [new transports.Console()]
+  transports: [
+    new transports.Console({
+      level: 'error',
+      format: format.combine(
+        format.colorize(),
+        errorFormat
+      )
+    }),
+    new transports.Console({
+      level: 'info',
+      format: format.combine(
+        format.colorize(),
+        infoFormat
+      )
+    })
+  ],
+  exitOnError: false
 })
 
 module.exports = logger
