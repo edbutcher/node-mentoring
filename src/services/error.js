@@ -1,20 +1,28 @@
+const logger = require('./logger')
+
 class CustomError extends Error {
-  constructor(statusCode, message) {
-    super()
-    this.statusCode = statusCode
+  constructor(code, message, ...params) {
+    super(params)
+    this.code = code
     this.message = message
   }
 }
 
-function errorHandler(err, req, res) {
-  const statusCode = err.statusCode || 500
-  const message = err.message || 'Unexpected error'
+// eslint-disable-next-line no-unused-vars
+function errorHandler(err, req, res, next) {
+  const code = err.code || 500
+  const message = err.code ? err.message : 'Unexpected error'
+  const place = err.stack.match(/\((\S+)\)/)[1]
+  const functionName = err.stack.match(/at\s(\S+)\s/)[1]
 
-  res.status(statusCode).json({
-    status: 'error',
-    statusCode,
-    message
+  logger.log({
+    level: 'error',
+    place,
+    functionName,
+    message: err.message
   })
+
+  res.status(code).json({ code, message })
 }
 
 module.exports = {

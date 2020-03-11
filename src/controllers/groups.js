@@ -11,8 +11,8 @@ async function getAllGroups(req, res) {
 
 async function getGroupById(req, res) {
   const id = req.params.groupId
-  if (!id) throw CustomError(400, '"groupId" field is required')
   const group = await Group.findByPk(id)
+  if (!group) throw new CustomError(400, `Group with id ${id} not found`)
 
   res.json(group)
 }
@@ -26,7 +26,7 @@ async function createGroup(req, res) {
 
 async function updateGroup(req, res) {
   const id = req.params.groupId
-  if (!id) throw CustomError(400, '"groupId" field is required')
+  if (!id) throw new CustomError(400, '"groupId" field is required')
 
   const { name, permissions } = req.body
   await Group.update({ id, name, permissions }, { where: { id } })
@@ -39,7 +39,7 @@ async function deleteGroup(req, res) {
   let transaction
   try {
     const id = req.params.groupId
-    if (!id) throw CustomError(400, '"groupId" field is required')
+    if (!id) throw new CustomError(400, '"groupId" field is required')
 
     transaction = await sequelize.transaction()
     await UserGroup.destroy({ where: { groupId: id }, transaction })
@@ -49,7 +49,7 @@ async function deleteGroup(req, res) {
     res.sendStatus(200)
   } catch (error) {
     transaction.rollback()
-    throw CustomError(400, error.message)
+    throw new CustomError(400, error.message)
   }
 }
 
@@ -65,7 +65,7 @@ async function addUsersToGroup(req, res) {
     res.sendStatus(200)
   } catch (error) {
     transaction.rollback()
-    throw CustomError(400, error.message)
+    throw new CustomError(400, error.message)
   }
 }
 

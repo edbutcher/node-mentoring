@@ -23,6 +23,7 @@ async function getUserById(req, res) {
   const id = req.params.userId
   if (!id) throw CustomError(400, '"userId" field is required')
   const user = await User.findByPk(id)
+  if (!user) throw new CustomError(400, `There is no user with id ${id}`)
 
   res.json(user)
 }
@@ -36,7 +37,7 @@ async function createUser(req, res) {
 
 async function updateUser(req, res) {
   const id = req.params.userId
-  if (!id) throw CustomError(400, '"userId" field is required')
+  if (!id) throw new CustomError(400, '"userId" field is required')
 
   const { login, password, age } = req.body
   await User.update({ id, login, password, age }, { where: { id } })
@@ -49,7 +50,7 @@ async function deleteUser(req, res) {
   let transaction
   try {
     const id = req.params.userId
-    if (!id) throw CustomError(400, '"userId" field is required')
+    if (!id) throw new CustomError(400, '"userId" field is required')
 
     transaction = await sequelize.transaction()
     await UserGroup.destroy({ where: { userId: id }, transaction })
@@ -59,7 +60,7 @@ async function deleteUser(req, res) {
     res.sendStatus(200)
   } catch (error) {
     transaction.rollback()
-    throw CustomError(400, error.message)
+    throw new CustomError(400, error.message)
   }
 }
 
