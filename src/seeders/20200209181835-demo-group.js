@@ -1,6 +1,6 @@
 module.exports = {
-  up: queryInterface => {
-    return queryInterface.bulkInsert(
+  up: async queryInterface => {
+    return await queryInterface.bulkInsert(
       'Groups',
       [
         {
@@ -19,7 +19,7 @@ module.exports = {
       {}
     )
   },
-  down: queryInterface => {
-    return queryInterface.bulkDelete('Groups', null, {})
+  down: async queryInterface => {
+    return await queryInterface.bulkDelete('Groups', null, {})
   }
 }
