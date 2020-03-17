@@ -30,7 +30,6 @@ async function getUserById(req, res) {
 
 async function createUser(req, res) {
   const { login, password, age } = req.body
-  // const hashPassword = await User.hashPassword(password)
   const user = await User.create({ login, password, age })
 
   res.status(201).json(user)

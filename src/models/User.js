@@ -17,7 +17,13 @@ class User extends Sequelize.Model {
         },
         password: {
           type: DataTypes.STRING,
-          allowNull: false
+          allowNull: false,
+          get() {
+            return this.getDataValue('password')
+          },
+          set(password) {
+            return this.setDataValue('password', User.generateHash(password))
+          }
         },
         age: {
           type: DataTypes.INTEGER,
@@ -47,24 +53,9 @@ class User extends Sequelize.Model {
     })
   }
 
-  static async generateHash(password) {
-    return await bcrypt.hash(password, bcrypt.genSalt())
-  }
-
-  static beforeCreate() {
-    return super.beforeCreate(async (user) => {
-      const hashedPassword = await User.generateHash(user.password)
-      user.password = hashedPassword
-    })
-  }
-
-  static beforeBulkCreate() {
-    return super.beforeBulkCreate(async (users) => {
-      for (const user of users) {
-        const hashedPassword = await User.generateHash(user.password)
-        user.password = hashedPassword
-      }
-    })
+  static generateHash(password) {
+    // eslint-disable-next-line no-sync
+    return bcrypt.hashSync(password, 8)
   }
 
   validPassword(passwordToCompare) {
