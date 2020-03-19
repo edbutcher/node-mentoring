@@ -16,6 +16,12 @@ const userSchema = Joi.object({
 })
 const validateUser = validator.body(userSchema)
 
+const loginSchema = Joi.object({
+  login: Joi.string().required(),
+  password: Joi.string().required()
+})
+const validateLogin = validator.body(loginSchema)
+
 const groupSchema = Joi.object({
   name: Joi.string().required(),
   permissions: Joi.array().items(Joi.string().valid(
@@ -32,6 +38,7 @@ const validateUserGroup = validator.body(userGroupSchema)
 
 module.exports = {
   validateUser,
+  validateLogin,
   validateGroup,
   validateUserGroup
 }
