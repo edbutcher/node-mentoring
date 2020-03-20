@@ -1,5 +1,6 @@
 # node-mentoring
 
+## Setup
 - Create user and database
   - `su - postgres`
   - `psql` call PostgreSQL terminal
@@ -10,10 +11,18 @@
   - `\quit`
 - or
   - `createdb <your_data_base_name> -U <db_user>`
-
 - Migrations
-  - `npx sequelize-cli db:migrate`
-  - `npx sequelize-cli db:migrate:undo`
+  - `npm run migrate`
+  - `npm run migrate:undo`
 - Seeding
-  - `npx sequelize-cli db:seed:all`
-  - `npx sequelize-cli db:seed:undo:all`
+  - `npm run seed`
+  - `npm run seed:undo`
+
+## Starting App
+- `npm start`
+- `npm run dev` (development mode)
+
+## Test
+- `npm test`
+- `npm run test:watch` (watch all mode)
+

@@ -14,13 +14,13 @@ const userSchema = Joi.object({
     .max(130)
     .required()
 })
-const validateUser = validator.body(userSchema)
+const userValidator = validator.body(userSchema)
 
 const loginSchema = Joi.object({
   login: Joi.string().required(),
   password: Joi.string().required()
 })
-const validateLogin = validator.body(loginSchema)
+const loginValidator = validator.body(loginSchema)
 
 const groupSchema = Joi.object({
   name: Joi.string().required(),
@@ -28,17 +28,17 @@ const groupSchema = Joi.object({
     'READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES'
   )).required()
 })
-const validateGroup = validator.body(groupSchema)
+const groupValidator = validator.body(groupSchema)
 
 const userGroupSchema = Joi.object({
   groupId: Joi.number().required(),
   userIds: Joi.array().items(Joi.number()).required()
 })
-const validateUserGroup = validator.body(userGroupSchema)
+const userGroupValidator = validator.body(userGroupSchema)
 
 module.exports = {
-  validateUser,
-  validateLogin,
-  validateGroup,
-  validateUserGroup
+  userValidator,
+  loginValidator,
+  groupValidator,
+  userGroupValidator
 }

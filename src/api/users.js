@@ -1,5 +1,5 @@
 const userRouter = require('express').Router()
-const { validateUser } = require('../services/validation')
+const { userValidator } = require('../services/validators')
 const {
   getAllUsers,
   createUser,
@@ -10,9 +10,9 @@ const {
 
 userRouter
   .get('/', getAllUsers)
-  .post('/', validateUser, createUser)
+  .post('/', userValidator, createUser)
   .get('/:userId', getUserById)
-  .patch('/:userId', validateUser, updateUser)
+  .patch('/:userId', userValidator, updateUser)
   .delete('/:userId', deleteUser)
 
 module.exports = userRouter

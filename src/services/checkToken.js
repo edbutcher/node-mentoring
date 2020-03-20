@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const { CustomError } = require('./error')
 
-function checkToken(req, res, next) {
+module.exports = function checkToken(req, res, next) {
   const token = req.headers['x-access-token']
   if (!token) {
     throw new CustomError(401, 'Unauthorized.')
@@ -13,5 +13,3 @@ function checkToken(req, res, next) {
   }
   next()
 }
-
-module.exports = checkToken
