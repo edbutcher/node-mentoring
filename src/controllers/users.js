@@ -1,5 +1,6 @@
 const { CustomError } = require('../services/error')
-const { User, UserGroup, sequelize, Sequelize } = require('../models')
+const Sequelize = require('sequelize')
+const { User, UserGroup, sequelize } = require('../models')
 
 async function getAllUsers(req, res) {
   const { loginSubstring, limit } = req.query

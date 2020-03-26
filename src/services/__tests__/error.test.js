@@ -61,6 +61,6 @@ describe('errorHandler', () => {
       })
     )
     expect(res.status).toHaveBeenCalledWith(errorCode)
-    expect(res.json).toHaveBeenCalledWith({ code: 404, message: errorMessage })
+    expect(res.json).toHaveBeenCalledWith({ code: errorCode, message: errorMessage })
   })
 })
