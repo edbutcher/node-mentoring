@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node ./src/app.js --NODE_ENV=production",
     "dev": "nodemon ./src/app.js --NODE_ENV=development",
+    "test": "jest",
+    "test:watch": "npm run test -- --watchAll",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
     "seed": "npx sequelize-cli db:seed:all",
@@ -31,8 +33,10 @@
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "jest": "^25.1.0",
     "nodemon": "^2.0.0",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "sequelize-mock": "^0.10.2"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",

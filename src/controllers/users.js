@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize')
 const { CustomError } = require('../services/error')
+const Sequelize = require('sequelize')
 const { User, UserGroup, sequelize } = require('../models')
 
 async function getAllUsers(req, res) {
